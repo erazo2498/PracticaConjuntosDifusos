@@ -7,11 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using OxyPlot.WindowsForms;
+using PracticaConjuntosDifusos.Logica;
+
 
 namespace PracticaConjuntosDifusos
 {
     public partial class Form1 : Form
     {
+      
+       
+
         public Form1()
         {
             InitializeComponent();
@@ -19,7 +25,16 @@ namespace PracticaConjuntosDifusos
 
         private void Form1_Load(object sender, EventArgs e)
         {
+ 
+          
+        }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            
+            var valoresEcuacion = ConjuntoDifuso.Analizar(5, 25, 12, "Muy Lejos");
+            Controls.Add(Graficador.Generar_Grafica(valoresEcuacion, 5.0));
+            
         }
     }
 }

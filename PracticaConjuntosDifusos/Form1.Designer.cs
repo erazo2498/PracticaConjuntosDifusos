@@ -28,8 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.rbDiscreto = new System.Windows.Forms.RadioButton();
-            this.rbContinuo = new System.Windows.Forms.RadioButton();
             this.txtRangoA = new System.Windows.Forms.TextBox();
             this.txtRangoB = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -41,31 +39,9 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
+            this.rbDiscreto = new System.Windows.Forms.RadioButton();
+            this.rbContinuo = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
-            // 
-            // rbDiscreto
-            // 
-            this.rbDiscreto.AutoSize = true;
-            this.rbDiscreto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rbDiscreto.Location = new System.Drawing.Point(68, 27);
-            this.rbDiscreto.Name = "rbDiscreto";
-            this.rbDiscreto.Size = new System.Drawing.Size(95, 20);
-            this.rbDiscreto.TabIndex = 0;
-            this.rbDiscreto.TabStop = true;
-            this.rbDiscreto.Text = "DISCRETO";
-            this.rbDiscreto.UseVisualStyleBackColor = true;
-            // 
-            // rbContinuo
-            // 
-            this.rbContinuo.AutoSize = true;
-            this.rbContinuo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rbContinuo.Location = new System.Drawing.Point(66, 53);
-            this.rbContinuo.Name = "rbContinuo";
-            this.rbContinuo.Size = new System.Drawing.Size(97, 20);
-            this.rbContinuo.TabIndex = 1;
-            this.rbContinuo.TabStop = true;
-            this.rbContinuo.Text = "CONTINUO";
-            this.rbContinuo.UseVisualStyleBackColor = true;
             // 
             // txtRangoA
             // 
@@ -163,12 +139,37 @@
             this.button1.TabIndex = 12;
             this.button1.Text = "GENERAR GRÁFICA";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // rbDiscreto
+            // 
+            this.rbDiscreto.AutoSize = true;
+            this.rbDiscreto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbDiscreto.Location = new System.Drawing.Point(68, 27);
+            this.rbDiscreto.Name = "rbDiscreto";
+            this.rbDiscreto.Size = new System.Drawing.Size(95, 20);
+            this.rbDiscreto.TabIndex = 0;
+            this.rbDiscreto.TabStop = true;
+            this.rbDiscreto.Text = "DISCRETO";
+            this.rbDiscreto.UseVisualStyleBackColor = true;
+            // 
+            // rbContinuo
+            // 
+            this.rbContinuo.AutoSize = true;
+            this.rbContinuo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbContinuo.Location = new System.Drawing.Point(66, 53);
+            this.rbContinuo.Name = "rbContinuo";
+            this.rbContinuo.Size = new System.Drawing.Size(97, 20);
+            this.rbContinuo.TabIndex = 1;
+            this.rbContinuo.TabStop = true;
+            this.rbContinuo.Text = "CONTINUO";
+            this.rbContinuo.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(250, 324);
+            this.ClientSize = new System.Drawing.Size(872, 324);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -191,9 +192,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.RadioButton rbDiscreto;
-        private System.Windows.Forms.RadioButton rbContinuo;
         private System.Windows.Forms.TextBox txtRangoA;
         private System.Windows.Forms.TextBox txtRangoB;
         private System.Windows.Forms.Label label1;
@@ -205,6 +203,8 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.RadioButton rbDiscreto;
+        private System.Windows.Forms.RadioButton rbContinuo;
     }
 }
 
