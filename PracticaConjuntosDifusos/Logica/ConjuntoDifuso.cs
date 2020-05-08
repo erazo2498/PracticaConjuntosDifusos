@@ -1,74 +1,76 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PracticaConjuntosDifusos.Logica
 {
     public static class ConjuntoDifuso
     {
-        public static List<double> Analizar ( int rangoA, int rangoB, int punto, string pertenencia)
+        //refactorizar esto en una sola matriz
+        static List<int> valoresIniciales = new List<int>();
+        static List<int> valoresFinales = new List<int>();
+        static List<double> valores = new List<double>();
+
+        public static void Analizar (int rangoA, int rangoB, int punto, string pertenencia)
         {
             
-            double pendiente;
-            List<double> valoresEcuacion = new List<double>();
+            List<double> pendientes = new List<double>();
             int distancia = CalcularDistancia(pertenencia);
             int limiteInferior = punto - distancia;
             int limiteSuperior = punto + distancia;
 
-            
-            //[rangoA-LimiteInferior]
-            if(rangoA < limiteInferior)
+            if(rangoA < limiteInferior && limiteInferior < punto && punto < limiteSuperior && limiteSuperior < rangoB)
             {
-                pendiente = CalcularPendiente(rangoA, 0, limiteInferior, 0);
-                for (double i = rangoA; i < limiteInferior; i += 0.01)
-                {
-                    valoresEcuacion.Add(EcuacionLineal(pendiente, punto, i, 0));
-                }
+                pendientes.Add(CalcularPendiente(rangoA, 0, limiteInferior, 0));
+                pendientes.Add(CalcularPendiente(limiteInferior, 0, punto, 1));
+                pendientes.Add(CalcularPendiente(punto, 1, limiteSuperior, 0));
+                pendientes.Add(CalcularPendiente(limiteSuperior, 0, rangoB, 0));
+            }
+            else if(limiteInferior < rangoA && rangoA < punto && punto < limiteSuperior && limiteSuperior < rangoB)
+            {
+                pendientes.Add(CalcularPendiente(limiteInferior, 0, punto, 1));
+                pendientes.Add(CalcularPendiente(punto, 1, limiteSuperior, 0));
+                pendientes.Add(CalcularPendiente(limiteSuperior, 0, rangoB, 0));
+            }
+            else if(limiteInferior < rangoA && rangoA < punto && punto < rangoB && rangoB < limiteSuperior)
+            {
+                pendientes.Add(CalcularPendiente(limiteInferior, 0, punto, 1));
+                pendientes.Add(CalcularPendiente(punto, 1, limiteSuperior, 0));
+            }
+            else if(rangoA < limiteInferior && limiteInferior < punto && punto < rangoB && rangoB < limiteSuperior)
+            {
+                pendientes.Add(CalcularPendiente(rangoA, 0, limiteInferior, 0));
+                pendientes.Add(CalcularPendiente(limiteInferior, 0, punto, 1));
+                pendientes.Add(CalcularPendiente(punto, 1, limiteSuperior, 0));
+            }
+            else if (rangoA < limiteInferior && limiteInferior < punto && punto == rangoB && punto < limiteSuperior)
+            {
+                pendientes.Add(CalcularPendiente(rangoA, 0, limiteInferior, 0));
+                pendientes.Add(CalcularPendiente(limiteInferior, 0, punto, 1));
+            }
+            else if(limiteInferior < punto && punto == rangoA && punto < limiteSuperior && limiteSuperior < rangoB)
+            {
+                pendientes.Add(CalcularPendiente(punto, 1, limiteSuperior, 0));
+                pendientes.Add(CalcularPendiente(limiteSuperior, 0, rangoB, 0));
+            }
+            else if (limiteInferior < punto && punto == rangoA && punto < rangoB && rangoB < limiteSuperior)
+            {
+                pendientes.Add(CalcularPendiente(punto, 1, limiteSuperior, 0));
+            }
+            else if(limiteInferior < rangoA && rangoA < punto && punto == rangoB && punto < limiteSuperior)
+            {
+                pendientes.Add(CalcularPendiente(limiteInferior, 0, punto, 1));
+            }
 
-            }
-            else
+            int indice = 0;
+            foreach (var m in pendientes)
             {
-                pendiente = CalcularPendiente(punto, 1, limiteInferior, 0);
-                for (double i = rangoA; i < punto; i += 0.01)
-                {
-                    valoresEcuacion.Add(EcuacionLineal(pendiente, punto, i, 1));
-                    
-                }
+                int y1 = m == 0 ? 0 : 1;
+                EcuacionLineal(m, punto, valoresIniciales[indice], valoresFinales[indice], y1);
+                indice++;
             }
-            
-            //[LimiteInferior - Punto]
-            pendiente = CalcularPendiente(limiteInferior, 0, punto, 1);
-            for (double i = limiteInferior; i < punto; i += 0.01)
-            {
-                valoresEcuacion.Add(EcuacionLineal(pendiente, punto, i, 1));
-            }
-
-            
-            //[PuntoLimiteSuperior]
-            pendiente = CalcularPendiente(punto, 1, limiteSuperior, 0);
-            for (double i = punto; i < limiteSuperior; i += 0.01)
-            {
-                valoresEcuacion.Add(EcuacionLineal(pendiente, punto, i, 1));
-            }
-
-            
-            //[LimiteSuperior - RangoB]
-            if (rangoB> limiteSuperior)
-            {
-                pendiente = CalcularPendiente(limiteSuperior, 0, rangoB, 0);
-                for (double i = limiteSuperior; i < rangoB; i += 0.01)
-                {
-                    valoresEcuacion.Add(EcuacionLineal(pendiente, punto, i, 0));
-                }
-            }
-            
-            return valoresEcuacion;
-
         }
 
-        public static int CalcularDistancia(string pertenencia)
+        private static int CalcularDistancia(string pertenencia)
         {
             switch (pertenencia)
             {
@@ -85,21 +87,28 @@ namespace PracticaConjuntosDifusos.Logica
             }
         }
 
-        public static double CalcularPendiente (int x1, int y1, int x2, int y2)
+        private static double CalcularPendiente (int x1, int y1, int x2, int y2)
         {
-            double resultado =  Convert.ToDouble((y2-y1)) / Convert.ToDouble((x2-x1));
-            return resultado;
+            valoresIniciales.Add(x1);
+            valoresFinales.Add(x2);
+            return Convert.ToDouble((y2-y1)) / Convert.ToDouble((x2-x1));  
         }
 
-        public static double EcuacionLineal(double pendiente, int punto, double valor, double y)
+        private static void EcuacionLineal(double pendiente, int punto, int valorInicial, int valorFinal, int y1)
         {
-            double resultado = (pendiente * (valor - punto) + y);
-            return resultado;
+            for (int i = valorInicial; i < valorFinal; i++)
+            {
+                valores.Add((pendiente * (i - punto) + y1));
+            }
         }
 
-        public static double EcuacionGaussiana()
+        private static double EcuacionGaussiana()
         {
             return 0;
+        }
+        public static List<double> ObtenerValores()
+        {
+            return valores;
         }
     }
 }

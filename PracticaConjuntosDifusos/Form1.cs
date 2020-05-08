@@ -32,8 +32,9 @@ namespace PracticaConjuntosDifusos
         private void button1_Click(object sender, EventArgs e)
         {
             
-            var valoresEcuacion = ConjuntoDifuso.Analizar(5, 25, 12, "Muy Lejos");
-            Controls.Add(Graficador.Generar_Grafica(valoresEcuacion, 5.0));
+            ConjuntoDifuso.Analizar(5, 25, 12, "Muy Lejos");
+            var valores = ConjuntoDifuso.ObtenerValores();
+            Controls.Add(Graficador.Generar_Grafica(valores, 5.0));
             
         }
     }

@@ -1,9 +1,5 @@
 ﻿using OxyPlot.WindowsForms;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 using OxyPlot.Series;
 using OxyPlot;
@@ -26,7 +22,7 @@ namespace PracticaConjuntosDifusos.Logica
             {
                 DataPoint dp = new DataPoint(rangoA, valor);
                 fs.Points.Add(dp);
-                rangoA += 0.01;
+                rangoA += 1 ;
             }
             
             pv.Model.Series.Add(fs);
