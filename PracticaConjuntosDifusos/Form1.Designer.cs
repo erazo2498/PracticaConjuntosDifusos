@@ -90,7 +90,7 @@
             this.cbGradoPertenencia.Items.AddRange(new object[] {
             "Muy Cerca",
             "Cerca",
-            "Lejos ",
+            "Lejos",
             "Muy Lejos"});
             this.cbGradoPertenencia.Location = new System.Drawing.Point(55, 178);
             this.cbGradoPertenencia.Name = "cbGradoPertenencia";

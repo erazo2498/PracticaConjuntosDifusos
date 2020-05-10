@@ -62,12 +62,18 @@ namespace PracticaConjuntosDifusos.Logica
             }
 
             int indice = 0;
+            double ultimoValor = pendientes[pendientes.Count - 1];
             foreach (var m in pendientes)
             {
                 int y1 = m == 0 ? 0 : 1;
                 EcuacionLineal(m, punto, valoresIniciales[indice], valoresFinales[indice], y1);
                 indice++;
             }
+
+            //calcular el ultimo valor.
+          
+            EcuacionLineal(ultimoValor, punto, 0, 1, ultimoValor == 0 ? 0 : ultimoValor);
+
         }
 
         private static int CalcularDistancia(string pertenencia)
@@ -94,8 +100,10 @@ namespace PracticaConjuntosDifusos.Logica
             return Convert.ToDouble((y2-y1)) / Convert.ToDouble((x2-x1));  
         }
 
-        private static void EcuacionLineal(double pendiente, int punto, int valorInicial, int valorFinal, int y1)
+        private static void EcuacionLineal(double pendiente, int punto, int valorInicial, int valorFinal, double y1)
         {
+            
+
             for (int i = valorInicial; i < valorFinal; i++)
             {
                 valores.Add((pendiente * (i - punto) + y1));
