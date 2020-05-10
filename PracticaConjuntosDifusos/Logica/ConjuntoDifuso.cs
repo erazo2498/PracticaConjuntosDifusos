@@ -12,7 +12,8 @@ namespace PracticaConjuntosDifusos.Logica
 
         public static void Analizar (int rangoA, int rangoB, int punto, string pertenencia)
         {
-            
+            ResetearValores();
+
             List<double> pendientes = new List<double>();
             int distancia = CalcularDistancia(pertenencia);
             int limiteInferior = punto - distancia;
@@ -74,6 +75,13 @@ namespace PracticaConjuntosDifusos.Logica
           
             EcuacionLineal(ultimoValor, punto, 0, 1, ultimoValor == 0 ? 0 : ultimoValor);
 
+        }
+
+        private static void ResetearValores()
+        {
+            valoresIniciales.Clear();
+            valoresFinales.Clear();
+            valores.Clear();
         }
 
         private static int CalcularDistancia(string pertenencia)

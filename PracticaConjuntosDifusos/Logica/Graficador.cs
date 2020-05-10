@@ -16,7 +16,7 @@ namespace PracticaConjuntosDifusos.Logica
             pv.Model = new PlotModel { Title = "Discreto" };
             
             FunctionSeries fs = new FunctionSeries();
-            
+           
             foreach (var valor in valoresEcuacion)
             {
                 DataPoint dp = new DataPoint(rangoA, valor);

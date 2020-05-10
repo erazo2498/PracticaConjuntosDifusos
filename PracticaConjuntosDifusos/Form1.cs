@@ -15,8 +15,7 @@ namespace PracticaConjuntosDifusos
 {
     public partial class Form1 : Form
     {
-      
-       
+        PlotView pv = new PlotView();
 
         public Form1()
         {
@@ -34,14 +33,15 @@ namespace PracticaConjuntosDifusos
             
             if(ValidarParametros(txtRangoA.Text, txtRangoB.Text, txtPunto.Text, cbGradoPertenencia.Text))
             {
-           
+                Controls.Remove(pv);
                 int rangoA = int.Parse(txtRangoA.Text);
                 int rangoB = int.Parse(txtRangoB.Text);
                 int punto = int.Parse(txtPunto.Text);
                 string pertenencia = cbGradoPertenencia.Text;
                 ConjuntoDifuso.Analizar(rangoA, rangoB, punto, pertenencia);
                 var valores = ConjuntoDifuso.ObtenerValores();
-                Controls.Add(Graficador.Generar_Grafica(valores, rangoA));
+                pv = Graficador.Generar_Grafica(valores, rangoA);
+                Controls.Add(pv);
             }
             else
             {
