@@ -61,6 +61,11 @@ namespace PracticaConjuntosDifusos.Logica
             {
                 pendientes.Add(CalcularPendiente(limiteInferior, 0, punto, 1));
             }
+            else if(rangoA == limiteInferior && rangoA < punto && punto < rangoB && rangoB == limiteSuperior)
+            {
+                pendientes.Add(CalcularPendiente(rangoA, 0, punto, 1));
+                pendientes.Add(CalcularPendiente(punto, 1, rangoB, 0));
+            }
 
             int indice = 0;
             double ultimoValor = pendientes[pendientes.Count - 1];
