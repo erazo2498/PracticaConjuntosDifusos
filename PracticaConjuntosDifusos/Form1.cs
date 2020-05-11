@@ -40,7 +40,8 @@ namespace PracticaConjuntosDifusos
                 string pertenencia = cbGradoPertenencia.Text;
                 ConjuntoDifuso.Analizar(rangoA, rangoB, punto, pertenencia);
                 var valores = ConjuntoDifuso.ObtenerValores();
-                pv = Graficador.Generar_Grafica(valores, rangoA, "Sistema Discreto", 1.0);
+                var segmentos = ConjuntoDifuso.ObtenerSegmentos();
+                pv = Graficador.Generar_Grafica(valores, segmentos, "Sistema Discreto", 1.0);
                 Controls.Add(pv);
             }
             else

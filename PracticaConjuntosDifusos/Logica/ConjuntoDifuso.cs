@@ -86,17 +86,17 @@ namespace PracticaConjuntosDifusos.Logica
                 MessageBox.Show("No existe este caso");
             }
             
-            int indice = 0;
-            foreach (var m in pendientes)
+            if(pendientes.Count > 0)
             {
-                int y1 = m == 0 ? 0 : 1;
-                EcuacionLineal(m, punto, segmentos[indice].Item1, segmentos[indice].Item2, y1);
-                indice++;
-            }
+                int indice = 0;
+                foreach (var m in pendientes)
+                {
+                    int y1 = m == 0 ? 0 : 1;
+                    EcuacionLineal(m, punto, segmentos[indice].Item1, segmentos[indice].Item2, y1);
+                    indice++;
+                }
 
-            //calcular el ultimo valor.
-          
-            //EcuacionLineal(ultimoValor, punto, 0, 1, ultimoValor == 0 ? 0 : ultimoValor);
+            }
 
         }
 
@@ -159,6 +159,11 @@ namespace PracticaConjuntosDifusos.Logica
         public static List<double> ObtenerValores()
         {
             return valores;
+        }
+
+        public static List<(int, int)> ObtenerSegmentos()
+        {
+            return segmentos;
         }
     }
 }
