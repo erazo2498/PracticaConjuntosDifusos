@@ -4,12 +4,17 @@ using System.Windows.Forms;
 
 namespace PracticaConjuntosDifusos.Logica
 {
-    public static class ConjuntoDifuso
+    public class ConjuntoDifusoDiscreto
     {
         static List<(int, int)> segmentos = new List<(int, int)>();
         static List<double> valores = new List<double>();
 
-        public static void Analizar (int rangoA, int rangoB, int punto, string pertenencia)
+        public ConjuntoDifusoDiscreto(int rangoA, int rangoB, int punto, string pertenencia)
+        {
+            AnalizarConjunto(rangoA, rangoB, punto, pertenencia);
+        }
+
+        public static void AnalizarConjunto (int rangoA, int rangoB, int punto, string pertenencia)
         {
             ResetearValores();
 
@@ -25,7 +30,6 @@ namespace PracticaConjuntosDifusos.Logica
                 pendientes.Add(CalcularPendiente(punto, 1, limiteSuperior, 0));
                 pendientes.Add(CalcularPendiente(limiteSuperior, 0, rangoB, 0));
                 AgregarSegmentos(new List<(int, int)> {(rangoA,limiteInferior), (limiteInferior, punto), (punto, limiteSuperior), (limiteSuperior, rangoB)});
-                //calcularUltimoValor o incrementarlo en el ultimo rango
 
             }
             else if(limiteInferior < rangoA && rangoA < punto && punto < limiteSuperior && limiteSuperior < rangoB)
@@ -34,14 +38,14 @@ namespace PracticaConjuntosDifusos.Logica
                 pendientes.Add(CalcularPendiente(punto, 1, limiteSuperior, 0));
                 pendientes.Add(CalcularPendiente(limiteSuperior, 0, rangoB, 0));
                 AgregarSegmentos(new List<(int, int)> { (rangoA, punto), (punto, limiteSuperior), (limiteSuperior, rangoB)});
-                //ultimo valor
+                
             }
             else if(limiteInferior < rangoA && rangoA < punto && punto < rangoB && rangoB < limiteSuperior)
             {
                 pendientes.Add(CalcularPendiente(limiteInferior, 0, punto, 1));
                 pendientes.Add(CalcularPendiente(punto, 1, limiteSuperior, 0));
                 AgregarSegmentos(new List<(int, int)> { (rangoA, punto), (punto, rangoB)});
-                //ultimo valor
+                
             }
             else if(rangoA < limiteInferior && limiteInferior < punto && punto < rangoB && rangoB < limiteSuperior)
             {
@@ -95,14 +99,11 @@ namespace PracticaConjuntosDifusos.Logica
                     EcuacionLineal(m, punto, segmentos[indice].Item1, segmentos[indice].Item2, y1);
                     indice++;
                 }
-
             }
-
         }
 
         private static void ResetearValores()
         {
-          
             segmentos.Clear();
             valores.Clear();
         }
@@ -152,16 +153,12 @@ namespace PracticaConjuntosDifusos.Logica
             }
         }
 
-        private static double EcuacionGaussiana()
-        {
-            return 0;
-        }
-        public static List<double> ObtenerValores()
+        public List<double> ObtenerValores()
         {
             return valores;
         }
 
-        public static List<(int, int)> ObtenerSegmentos()
+        public List<(int, int)> ObtenerSegmentos()
         {
             return segmentos;
         }
