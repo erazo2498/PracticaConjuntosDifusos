@@ -33,20 +33,33 @@ namespace PracticaConjuntosDifusos
             
             if(ValidarParametros(txtRangoA.Text, txtRangoB.Text, txtPunto.Text, cbGradoPertenencia.Text))
             {
+                this.Size = new Size(888, 363);
                 Controls.Remove(pv);
                 int rangoA = int.Parse(txtRangoA.Text);
                 int rangoB = int.Parse(txtRangoB.Text);
                 int punto = int.Parse(txtPunto.Text);
                 string pertenencia = cbGradoPertenencia.Text;
-                ConjuntoDifuso.Analizar(rangoA, rangoB, punto, pertenencia);
-                var valores = ConjuntoDifuso.ObtenerValores();
-                var segmentos = ConjuntoDifuso.ObtenerSegmentos();
-                pv = Graficador.Generar_Grafica(valores, segmentos, "Sistema Discreto", 1.0);
-                Controls.Add(pv);
+                
+                if (rbDiscreto.Checked)
+                {
+                    ConjuntoDifusoDiscreto conjuntoDiscreto = new ConjuntoDifusoDiscreto(rangoA, rangoB, punto, pertenencia);
+                    var valores = conjuntoDiscreto.ObtenerValores();
+                    var segmentos = conjuntoDiscreto.ObtenerSegmentos();
+                    pv = Graficador.Generar_Grafica(valores, segmentos, "Sistema Discreto", 1.0);
+                    Controls.Add(pv);
+                }
+                else if(rbContinuo.Checked)
+                {
+                    ConjuntoDifusoContinuo conjuntoContinuo = new ConjuntoDifusoContinuo(rangoA, rangoB, punto, pertenencia);
+                    var valores = conjuntoContinuo.ObtenerValores();
+                    pv = Graficador.Generar_Grafica(valores, new List<(int, int)> {(rangoA, rangoB) }, "Sistema Continuo", 0.1);
+                    Controls.Add(pv);
+                }
+                
             }
             else
             {
-                MessageBox.Show("Debe ingresar los parametros");
+                MessageBox.Show("Debe ingresar los parametros correctamente");
             }
             
             
