@@ -45,14 +45,16 @@ namespace PracticaConjuntosDifusos
                     ConjuntoDifusoDiscreto conjuntoDiscreto = new ConjuntoDifusoDiscreto(rangoA, rangoB, punto, pertenencia);
                     var valores = conjuntoDiscreto.ObtenerValores();
                     var segmentos = conjuntoDiscreto.ObtenerSegmentos();
-                    pv = Graficador.Generar_Grafica(valores, segmentos, "Sistema Discreto", 1.0);
+                    var ecuaciones = conjuntoDiscreto.ObtenerEcuaciones();
+                    pv = Graficador.Generar_Grafica(valores, segmentos, ecuaciones, 1.0);
                     Controls.Add(pv);
                 }
                 else if(rbContinuo.Checked)
                 {
                     ConjuntoDifusoContinuo conjuntoContinuo = new ConjuntoDifusoContinuo(rangoA, rangoB, punto, pertenencia);
                     var valores = conjuntoContinuo.ObtenerValores();
-                    pv = Graficador.Generar_Grafica(valores, new List<(int, int)> {(rangoA, rangoB) }, "Sistema Continuo", 0.1);
+                    var ecuacion = conjuntoContinuo.OtenerEcuacion();
+                    pv = Graficador.Generar_Grafica(valores, new List<(int, int)> {(rangoA, rangoB+1) }, new List<string> {ecuacion}, 0.01);
                     Controls.Add(pv);
                 }
                 

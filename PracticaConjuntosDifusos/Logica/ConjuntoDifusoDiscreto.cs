@@ -8,6 +8,7 @@ namespace PracticaConjuntosDifusos.Logica
     {
         static List<(int, int)> segmentos = new List<(int, int)>();
         static List<double> valores = new List<double>();
+        static List<string> ecuaciones = new List<string>();
 
         public ConjuntoDifusoDiscreto(int rangoA, int rangoB, int punto, string pertenencia)
         {
@@ -22,6 +23,7 @@ namespace PracticaConjuntosDifusos.Logica
             int distancia = CalcularDistancia(pertenencia);
             int limiteInferior = punto - distancia;
             int limiteSuperior = punto + distancia;
+            bool ecuacionValida = true;
 
             if(rangoA < limiteInferior && limiteInferior < punto && punto < limiteSuperior && limiteSuperior < rangoB)
             {
@@ -87,10 +89,11 @@ namespace PracticaConjuntosDifusos.Logica
             }
             else
             {
+                ecuacionValida = false;
                 MessageBox.Show("No existe este caso");
             }
             
-            if(pendientes.Count > 0)
+            if(pendientes.Count > 0 && ecuacionValida)
             {
                 int indice = 0;
                 foreach (var m in pendientes)
@@ -106,6 +109,7 @@ namespace PracticaConjuntosDifusos.Logica
         {
             segmentos.Clear();
             valores.Clear();
+            ecuaciones.Clear();
         }
 
         private static int CalcularDistancia(string pertenencia)
@@ -151,6 +155,15 @@ namespace PracticaConjuntosDifusos.Logica
             {
                 valores.Add((pendiente * (i - punto) + y1));
             }
+
+            if(pendiente == 0)
+            {
+                ecuaciones.Add("0");
+            }
+            else
+            {
+                ecuaciones.Add(pendiente.ToString() + "*(" + "x -" + punto.ToString() + ") +" + y1.ToString()); 
+            }
         }
 
         public List<double> ObtenerValores()
@@ -161,6 +174,11 @@ namespace PracticaConjuntosDifusos.Logica
         public List<(int, int)> ObtenerSegmentos()
         {
             return segmentos;
+        }
+
+        public List<string> ObtenerEcuaciones()
+        {
+            return ecuaciones;
         }
     }
 }

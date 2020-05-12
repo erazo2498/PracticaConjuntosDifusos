@@ -9,6 +9,7 @@ namespace PracticaConjuntosDifusos.Logica
     public class ConjuntoDifusoContinuo
     {
         static List<double> valores = new List<double>();
+        static string ecuacion;
         public ConjuntoDifusoContinuo(int rangoA, int rangoB, int punto, string pertenencia)
         {
             AnalizarConjunto(rangoA, rangoB, punto, pertenencia);
@@ -54,10 +55,13 @@ namespace PracticaConjuntosDifusos.Logica
         private static void EcuacionGaussiana(int punto, int valorInicial, int valorFinal, int exponente, int desplazamiento)
         {
          
-            for (double i = valorInicial; i < valorFinal; i += 0.1)
+            for (double i = valorInicial; i < valorFinal; i += 0.01)
             {
                 valores.Add(( desplazamiento/ (desplazamiento + Math.Pow((punto - i), exponente))));
             }
+
+            ecuacion = desplazamiento.ToString() + "/" + "[" + desplazamiento.ToString() + "+" + "(" + punto.ToString() + "-" + "x" + ")" + "^" + exponente.ToString() + "]";
+            
              
         }
 
@@ -69,6 +73,11 @@ namespace PracticaConjuntosDifusos.Logica
         public List<double> ObtenerValores()
         {
             return valores;
+        }
+
+        public string OtenerEcuacion()
+        {
+            return ecuacion;
         }
     }
 }

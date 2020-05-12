@@ -8,29 +8,19 @@ namespace PracticaConjuntosDifusos.Logica
 {
     public static class Graficador
     { 
-        public static PlotView Generar_Grafica(List<double> valoresEcuacion, List<(int,int)> segmentos, string titulo, double salto)
+        public static PlotView Generar_Grafica(List<double> valoresEcuacion, List<(int,int)> segmentos, List<string> titulos, double salto)
         {
             PlotView pv = new PlotView();
             pv.Location = new Point(220, 0);
             pv.Size = new Size(600, 300);
-            pv.Model = new PlotModel { Title = titulo };
+            pv.Model = new PlotModel { Title = "Conjunto Difuso" };
 
-            /*FunctionSeries fs = new FunctionSeries();
-           
-            foreach (var valor in valoresEcuacion)
-            {
-                DataPoint dp = new DataPoint(valorInicial, valor);
-                fs.Points.Add(dp);
-                valorInicial += salto;
-            }
-            
-            pv.Model.Series.Add(fs);*/
             var ultimoSegmento = segmentos[segmentos.Count - 1];
             segmentos.RemoveAt(segmentos.Count - 1);
             ultimoSegmento.Item2--;
             segmentos.Add(ultimoSegmento);
 
-
+            int indiceTitulo = 0;
             int indice = segmentos[0].Item1;
             int indiceValorEcuacion = 0;
             foreach (var segmento in segmentos)
@@ -45,6 +35,9 @@ namespace PracticaConjuntosDifusos.Logica
                 indiceValorEcuacion--;
                 indice = segmento.Item2;
                 pv.Model.Series.Add(fs);
+                fs.Title = titulos[indiceTitulo] + "  para: " + "[" + segmentos[indiceTitulo].Item1.ToString() + "," + segmentos[indiceTitulo].Item2.ToString() + ")";
+                indiceTitulo++;
+               
             }
            
             return pv;
