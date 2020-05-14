@@ -33,7 +33,7 @@ namespace PracticaConjuntosDifusos
             
             if(ValidarParametros(txtRangoA.Text, txtRangoB.Text, txtPunto.Text, cbGradoPertenencia.Text))
             {
-                this.Size = new Size(888, 363);
+                
                 Controls.Remove(pv);
                 int rangoA = int.Parse(txtRangoA.Text);
                 int rangoB = int.Parse(txtRangoB.Text);
@@ -42,12 +42,17 @@ namespace PracticaConjuntosDifusos
                 
                 if (rbDiscreto.Checked)
                 {
-                    ConjuntoDifusoDiscreto conjuntoDiscreto = new ConjuntoDifusoDiscreto(rangoA, rangoB, punto, pertenencia);
+                    ConjuntoDifusoDiscreto conjuntoDiscreto = new ConjuntoDifusoDiscreto(punto, pertenencia);
                     var valores = conjuntoDiscreto.ObtenerValores();
                     var segmentos = conjuntoDiscreto.ObtenerSegmentos();
                     var ecuaciones = conjuntoDiscreto.ObtenerEcuaciones();
-                    pv = Graficador.Generar_Grafica(valores, segmentos, ecuaciones, 1.0);
-                    Controls.Add(pv);
+                    if(valores.Count != 0)
+                    {
+                        this.Size = new Size(888, 363);
+                        pv = Graficador.Generar_Grafica(valores, segmentos, ecuaciones, 1.0);
+                        Controls.Add(pv);
+                    }
+                    
                 }
                 else if(rbContinuo.Checked)
                 {
