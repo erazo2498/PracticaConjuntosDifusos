@@ -12,14 +12,22 @@ namespace PracticaConjuntosDifusos.Logica
 
         public ConjuntoDifusoDiscreto(int rangoA, int rangoB, int punto, string pertenencia)
         {
-            AnalizarConjunto(rangoA, rangoB, punto, pertenencia);
+            AnalizarConjunto(punto, pertenencia);
         }
 
-        public static void AnalizarConjunto (int rangoA, int rangoB, int punto, string pertenencia)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="punto"> parametro para analizar el punto de referencia que ingresa el usuario</param>
+        /// <param name="pertenencia"> parametro que nos permite saber si el grado de pertenencia es cerca, muy cerca, lejos o  muy lejos 
+        /// y teniendo en cuenta estó, podemos graficar</param>
+        public static void AnalizarConjunto (int punto, string pertenencia)
         {
             ResetearValores();
 
             List<double> pendientes = new List<double>();
+            int rangoA = -50 + punto;
+            int rangoB = 50 + punto;
             int distancia = CalcularDistancia(pertenencia);
             int limiteInferior = punto - distancia;
             int limiteSuperior = punto + distancia;
@@ -32,59 +40,6 @@ namespace PracticaConjuntosDifusos.Logica
                 pendientes.Add(CalcularPendiente(punto, 1, limiteSuperior, 0));
                 pendientes.Add(CalcularPendiente(limiteSuperior, 0, rangoB, 0));
                 AgregarSegmentos(new List<(int, int)> {(rangoA,limiteInferior), (limiteInferior, punto), (punto, limiteSuperior), (limiteSuperior, rangoB)});
-
-            }
-            else if(limiteInferior < rangoA && rangoA < punto && punto < limiteSuperior && limiteSuperior < rangoB)
-            {
-                pendientes.Add(CalcularPendiente(limiteInferior, 0, punto, 1));
-                pendientes.Add(CalcularPendiente(punto, 1, limiteSuperior, 0));
-                pendientes.Add(CalcularPendiente(limiteSuperior, 0, rangoB, 0));
-                AgregarSegmentos(new List<(int, int)> { (rangoA, punto), (punto, limiteSuperior), (limiteSuperior, rangoB)});
-                
-            }
-            else if(limiteInferior < rangoA && rangoA < punto && punto < rangoB && rangoB < limiteSuperior)
-            {
-                pendientes.Add(CalcularPendiente(limiteInferior, 0, punto, 1));
-                pendientes.Add(CalcularPendiente(punto, 1, limiteSuperior, 0));
-                AgregarSegmentos(new List<(int, int)> { (rangoA, punto), (punto, rangoB)});
-                
-            }
-            else if(rangoA < limiteInferior && limiteInferior < punto && punto < rangoB && rangoB < limiteSuperior)
-            {
-                pendientes.Add(CalcularPendiente(rangoA, 0, limiteInferior, 0));
-                pendientes.Add(CalcularPendiente(limiteInferior, 0, punto, 1));
-                pendientes.Add(CalcularPendiente(punto, 1, limiteSuperior, 0));
-                AgregarSegmentos(new List<(int, int)> { (rangoA, limiteInferior), (limiteInferior, punto), (punto, rangoB) });
-
-            }
-            else if (rangoA < limiteInferior && limiteInferior < punto && punto == rangoB && punto < limiteSuperior)
-            {
-                pendientes.Add(CalcularPendiente(rangoA, 0, limiteInferior, 0));
-                pendientes.Add(CalcularPendiente(limiteInferior, 0, punto, 1));
-                AgregarSegmentos(new List<(int, int)> { (rangoA, limiteInferior), (limiteInferior, punto)});
-
-            }
-            else if(limiteInferior < punto && punto == rangoA && punto < limiteSuperior && limiteSuperior < rangoB)
-            {
-                pendientes.Add(CalcularPendiente(punto, 1, limiteSuperior, 0));
-                pendientes.Add(CalcularPendiente(limiteSuperior, 0, rangoB, 0));
-                AgregarSegmentos(new List<(int, int)> { (punto, limiteSuperior), (limiteSuperior, rangoB)});
-            }
-            else if (limiteInferior < punto && punto == rangoA && punto < rangoB && rangoB < limiteSuperior)
-            {
-                pendientes.Add(CalcularPendiente(punto, 1, limiteSuperior, 0));
-                AgregarSegmentos(new List<(int, int)> { (rangoA, rangoB)});
-            }
-            else if(limiteInferior < rangoA && rangoA < punto && punto == rangoB && punto < limiteSuperior)
-            {
-                pendientes.Add(CalcularPendiente(limiteInferior, 0, punto, 1));
-                AgregarSegmentos(new List<(int, int)> { (rangoA, rangoB) });
-            }
-            else if(rangoA == limiteInferior && rangoA < punto && punto < rangoB && rangoB == limiteSuperior)
-            {
-                pendientes.Add(CalcularPendiente(rangoA, 0, punto, 1));
-                pendientes.Add(CalcularPendiente(punto, 1, rangoB, 0));
-                AgregarSegmentos(new List<(int, int)> { (rangoA, punto), (punto, rangoB) });
 
             }
             else
@@ -104,7 +59,10 @@ namespace PracticaConjuntosDifusos.Logica
                 }
             }
         }
-
+        /// <summary>
+        /// Resetea la informacion utilizada para realizar las graficas y así no tener problemas a la hora
+        /// de una nueva grafica
+        /// </summary>
         private static void ResetearValores()
         {
             segmentos.Clear();
