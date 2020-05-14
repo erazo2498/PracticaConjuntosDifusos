@@ -107,11 +107,11 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(97, 93);
+            this.label4.Location = new System.Drawing.Point(91, 92);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(46, 13);
+            this.label4.Size = new System.Drawing.Size(68, 13);
             this.label4.TabIndex = 9;
-            this.label4.Text = "RANGO";
+            this.label4.Text = "INTERVALO";
             // 
             // label5
             // 
