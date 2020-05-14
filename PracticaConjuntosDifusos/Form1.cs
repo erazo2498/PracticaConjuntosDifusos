@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using OxyPlot;
+using OxyPlot.Annotations;
 using OxyPlot.WindowsForms;
 using PracticaConjuntosDifusos.Logica;
 
@@ -30,19 +32,28 @@ namespace PracticaConjuntosDifusos
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
-            if(ValidarParametros(txtRangoA.Text, txtRangoB.Text, txtPunto.Text, cbGradoPertenencia.Text))
+
+            if (ValidarParametros(txtPunto.Text, cbGradoPertenencia.Text))
             {
                 this.Size = new Size(888, 363);
                 Controls.Remove(pv);
-                int rangoA = int.Parse(txtRangoA.Text);
-                int rangoB = int.Parse(txtRangoB.Text);
                 int punto = int.Parse(txtPunto.Text);
+                int rangoA = -50 + punto;
+                int rangoB = 50 + punto;
                 string pertenencia = cbGradoPertenencia.Text;
-                
+                var arrowAnnotation1 = new ArrowAnnotation
+                {
+                    StartPoint = new DataPoint(rangoA + 1, 0),
+                    EndPoint = new DataPoint(rangoA, 0)
+                };
+                var arrowAnnotation2 = new ArrowAnnotation
+                {
+                    StartPoint = new DataPoint(rangoB - 1, 0),
+                    EndPoint = new DataPoint(rangoB, 0)
+                };
                 if (rbDiscreto.Checked)
                 {
-                    ConjuntoDifusoDiscreto conjuntoDiscreto = new ConjuntoDifusoDiscreto(rangoA, rangoB, punto, pertenencia);
+                    ConjuntoDifusoDiscreto conjuntoDiscreto = new ConjuntoDifusoDiscreto(punto, pertenencia);
                     var valores = conjuntoDiscreto.ObtenerValores();
                     var segmentos = conjuntoDiscreto.ObtenerSegmentos();
                     var ecuaciones = conjuntoDiscreto.ObtenerEcuaciones();
@@ -57,7 +68,9 @@ namespace PracticaConjuntosDifusos
                     pv = Graficador.Generar_Grafica(valores, new List<(int, int)> {(rangoA, rangoB+1) }, new List<string> {ecuacion}, 0.01);
                     Controls.Add(pv);
                 }
-                
+                pv.Model.Annotations.Add(arrowAnnotation1);
+                pv.Model.Annotations.Add(arrowAnnotation2);
+
             }
             else
             {
@@ -68,9 +81,9 @@ namespace PracticaConjuntosDifusos
             
         }
 
-        private bool ValidarParametros(string rangoA, string rangoB, string punto, string pertenencia)
+        private bool ValidarParametros(string punto, string pertenencia)
         {
-            return (!rangoA.Equals(0) && !rangoB.Equals(0) && !punto.Equals(0) && !pertenencia.Equals(""));
+            return (!punto.Equals(0) && !pertenencia.Equals(""));
         }
     }
 }

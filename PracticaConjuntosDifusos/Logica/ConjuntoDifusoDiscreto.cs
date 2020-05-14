@@ -10,7 +10,7 @@ namespace PracticaConjuntosDifusos.Logica
         static List<double> valores = new List<double>();
         static List<string> ecuaciones = new List<string>();
 
-        public ConjuntoDifusoDiscreto(int rangoA, int rangoB, int punto, string pertenencia)
+        public ConjuntoDifusoDiscreto(int punto, string pertenencia)
         {
             AnalizarConjunto(punto, pertenencia);
         }

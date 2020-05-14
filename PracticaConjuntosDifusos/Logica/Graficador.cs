@@ -14,8 +14,7 @@ namespace PracticaConjuntosDifusos.Logica
             pv.Location = new Point(220, 0);
             pv.Size = new Size(600, 300);
             pv.Model = new PlotModel { Title = "Conjunto Difuso" };
-           
-           
+
             var ultimoSegmento = segmentos[segmentos.Count - 1];
             segmentos.RemoveAt(segmentos.Count - 1);
             ultimoSegmento.Item2--;
@@ -27,7 +26,6 @@ namespace PracticaConjuntosDifusos.Logica
             foreach (var segmento in segmentos)
             {
                 FunctionSeries fs = new FunctionSeries();
-                
                 for (double i = indice; i <= segmento.Item2; i+=salto)
                 {
                     DataPoint dp = new DataPoint(i, valoresEcuacion[indiceValorEcuacion]);
@@ -37,11 +35,10 @@ namespace PracticaConjuntosDifusos.Logica
                 indiceValorEcuacion--;
                 indice = segmento.Item2;
                 pv.Model.Series.Add(fs);
-                fs.Title = titulos[indiceTitulo];
+                fs.Title = titulos[indiceTitulo] + "  para: " + "[" + segmentos[indiceTitulo].Item1.ToString() + "," + segmentos[indiceTitulo].Item2.ToString() + ")";
                 indiceTitulo++;
                
             }
-           
             return pv;
         }
     }
