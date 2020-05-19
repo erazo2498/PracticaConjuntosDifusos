@@ -57,7 +57,7 @@ namespace PracticaConjuntosDifusos
                     var valores = conjuntoDiscreto.ObtenerValores();
                     var segmentos = conjuntoDiscreto.ObtenerSegmentos();
                     var ecuaciones = conjuntoDiscreto.ObtenerEcuaciones();
-                    pv = Graficador.Generar_Grafica(valores, segmentos, ecuaciones, 1.0);
+                    pv = Graficador.Generar_Grafica(valores, segmentos, ecuaciones, 1.0, "Discreto");
                     Controls.Add(pv);
                 }
                 else if(rbContinuo.Checked)
@@ -65,7 +65,7 @@ namespace PracticaConjuntosDifusos
                     ConjuntoDifusoContinuo conjuntoContinuo = new ConjuntoDifusoContinuo(rangoA, rangoB, punto, pertenencia);
                     var valores = conjuntoContinuo.ObtenerValores();
                     var ecuacion = conjuntoContinuo.OtenerEcuacion();
-                    pv = Graficador.Generar_Grafica(valores, new List<(int, int)> {(rangoA, rangoB+1) }, new List<string> {ecuacion}, 0.01);
+                    pv = Graficador.Generar_Grafica(valores, new List<(int, int)> {(rangoA, rangoB+1) }, new List<string> {ecuacion}, 0.01, "Continuo");
                     Controls.Add(pv);
                 }
                 pv.Model.Annotations.Add(arrowAnnotation1);
@@ -85,5 +85,37 @@ namespace PracticaConjuntosDifusos
         {
             return (!punto.Equals(0) && !pertenencia.Equals(""));
         }
+
+        private void txtPunto_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtPunto_KeyPress (object sender, KeyPressEventArgs e)
+        {
+            //Para obligar a que sólo se introduzcan números
+            if (Char.IsDigit(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            //permitir teclas de control como retroceso
+            else if (Char.IsControl(e.KeyChar)) 
+            {
+                e.Handled = false;
+            }
+            
+            else
+            {
+                if (e.KeyChar.Equals('-'))
+                {
+                    e.Handled = false;
+                }
+                else
+                {
+                    e.Handled = true;
+                }
+            }
+        }
+
     }
 }

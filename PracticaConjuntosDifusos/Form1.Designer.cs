@@ -39,6 +39,7 @@
             // 
             // cbGradoPertenencia
             // 
+            this.cbGradoPertenencia.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbGradoPertenencia.FormattingEnabled = true;
             this.cbGradoPertenencia.Items.AddRange(new object[] {
             "Muy Cerca",
@@ -52,10 +53,12 @@
             // 
             // txtPunto
             // 
-            this.txtPunto.Location = new System.Drawing.Point(87, 200);
+            this.txtPunto.Location = new System.Drawing.Point(86, 200);
             this.txtPunto.Name = "txtPunto";
             this.txtPunto.Size = new System.Drawing.Size(43, 20);
             this.txtPunto.TabIndex = 8;
+            this.txtPunto.TextChanged += new System.EventHandler(this.txtPunto_TextChanged);
+            this.txtPunto.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPunto_KeyPress);
             // 
             // label5
             // 

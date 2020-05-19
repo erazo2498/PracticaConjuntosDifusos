@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Drawing;
 using OxyPlot.Series;
 using OxyPlot;
+using OxyPlot.Annotations;
 
 namespace PracticaConjuntosDifusos.Logica
 {
     public static class Graficador
     { 
-        public static PlotView Generar_Grafica(List<double> valoresEcuacion, List<(int,int)> segmentos, List<string> titulos, double salto)
+        public static PlotView Generar_Grafica(List<double> valoresEcuacion, List<(int,int)> segmentos, List<string> titulos, double salto, string tipoSistema)
         {
             PlotView pv = new PlotView();
             pv.Location = new Point(220, 0);
             pv.Size = new Size(600, 300);
-            pv.Model = new PlotModel { Title = "Conjunto Difuso" };
+            pv.Model = new PlotModel { Title = tipoSistema=="Discreto"? "Sistema Difuso Discreto": "Sistema Difuso continuo" };
 
             var ultimoSegmento = segmentos[segmentos.Count - 1];
             segmentos.RemoveAt(segmentos.Count - 1);
@@ -32,13 +33,28 @@ namespace PracticaConjuntosDifusos.Logica
                     fs.Points.Add(dp);
                     indiceValorEcuacion++;
                 }
+      
                 indiceValorEcuacion--;
                 indice = segmento.Item2;
                 pv.Model.Series.Add(fs);
-                fs.Title = titulos[indiceTitulo] + "  para: " + "[" + segmentos[indiceTitulo].Item1.ToString() + "," + segmentos[indiceTitulo].Item2.ToString() + ")";
+                fs.LineStyle = tipoSistema == "Discreto" ? LineStyle.Dash : LineStyle.Solid;
+                
+
+
+                if (segmentos.Count > 1)
+                {
+                    var limiteInferior = segmento == segmentos[0] ? "(-∞" : "[" + segmentos[indiceTitulo].Item1.ToString();
+                    var limiteSuperior = segmento == segmentos[3] ? "∞)" : segmentos[indiceTitulo].Item2.ToString() + ")";
+                    fs.Title = titulos[indiceTitulo] + "  para: " + limiteInferior + "," + limiteSuperior;
+                }
+                else
+                {
+                    fs.Title = titulos[indiceTitulo] + "  para: " + "(-∞ +" +"," + "∞)";
+                }
                 indiceTitulo++;
-               
+
             }
+
             return pv;
         }
     }
