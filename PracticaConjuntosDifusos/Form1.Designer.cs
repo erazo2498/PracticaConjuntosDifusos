@@ -41,11 +41,6 @@
             // 
             this.cbGradoPertenencia.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbGradoPertenencia.FormattingEnabled = true;
-            this.cbGradoPertenencia.Items.AddRange(new object[] {
-            "Muy Cerca",
-            "Cerca",
-            "Lejos",
-            "Muy Lejos"});
             this.cbGradoPertenencia.Location = new System.Drawing.Point(44, 141);
             this.cbGradoPertenencia.Name = "cbGradoPertenencia";
             this.cbGradoPertenencia.Size = new System.Drawing.Size(121, 21);

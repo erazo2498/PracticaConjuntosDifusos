@@ -1,14 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using OxyPlot;
-using OxyPlot.Annotations;
 using OxyPlot.WindowsForms;
 using PracticaConjuntosDifusos.Logica;
 
@@ -26,7 +18,7 @@ namespace PracticaConjuntosDifusos
 
         private void Form1_Load(object sender, EventArgs e)
         {
- 
+            cbGradoPertenencia.Items.AddRange(Constantes.valoresPertenecia);
           
         }
 
@@ -46,7 +38,7 @@ namespace PracticaConjuntosDifusos
                     var valores = conjuntoDiscreto.ObtenerValores();
                     var segmentos = conjuntoDiscreto.ObtenerSegmentos();
                     var ecuaciones = conjuntoDiscreto.ObtenerEcuaciones();
-                    pv = Graficador.Generar_Grafica(valores, segmentos, ecuaciones, Constantes.SaltoDiscreto, "Discreto", punto);
+                    pv = Graficador.Generar_Grafica(valores, segmentos, ecuaciones, "Discreto", punto);
                     Controls.Add(pv);
                 }
                 else if(rbContinuo.Checked)
@@ -55,7 +47,7 @@ namespace PracticaConjuntosDifusos
                     var valores = conjuntoContinuo.ObtenerValores();
                     var ecuacion = conjuntoContinuo.OtenerEcuacion();
                     var segmento = conjuntoContinuo.ObtenerSegmento();
-                    pv = Graficador.Generar_Grafica(valores, segmento, ecuacion, Constantes.SaltoContinuo, "Continuo", punto);
+                    pv = Graficador.Generar_Grafica(valores, segmento, ecuacion,"Continuo", punto);
                     Controls.Add(pv);
                 }
                
@@ -69,7 +61,7 @@ namespace PracticaConjuntosDifusos
 
         private bool ValidarParametros(string punto, string pertenencia)
         {
-            return (!punto.Equals(0) && !pertenencia.Equals(""));
+            return (!punto.Equals("") && !pertenencia.Equals(""));
         }
 
         private void txtPunto_TextChanged(object sender, EventArgs e)

@@ -21,7 +21,7 @@ namespace PracticaConjuntosDifusos.Logica
         }
 
         /// <summary>
-        /// 
+        /// Permite analizar un sistema discreto y generar los valores correspondientes
         /// </summary>
         /// <param name="punto"> parametro para analizar el punto de referencia que ingresa el usuario</param>
         /// <param name="pertenencia"> parametro que nos permite saber si el grado de pertenencia es cerca, muy cerca, lejos o  muy lejos 
@@ -61,8 +61,7 @@ namespace PracticaConjuntosDifusos.Logica
             }
         }
         /// <summary>
-        /// Resetea la informacion utilizada para realizar las graficas y así no tener problemas a la hora
-        /// de una nueva grafica
+        /// Se resetan todos los atributos iniciales para no tener problemas al hacer un nuevo llamado
         /// </summary>
         private static void ResetearValores()
         {
@@ -71,6 +70,11 @@ namespace PracticaConjuntosDifusos.Logica
             ecuaciones.Clear();
         }
 
+        /// <summary>
+        /// Permite evaluar el nivel de pertenencia ingresado y generar un retorno numérico.
+        /// </summary>
+        /// <param name="pertenencia"> parametro de tipo string que indica la variable literal de pertenecia a un punto</param>
+        /// <returns>MuyCerca: 1, Cerca: 2, Lejos: 5, MuyLejos: 10</returns>
         private static int CalcularDistancia(string pertenencia)
         {
             switch (pertenencia)
@@ -88,11 +92,23 @@ namespace PracticaConjuntosDifusos.Logica
             }
         }
 
+        /// <summary>
+        /// Se calcula la pendiente entre dos puntos usando la formula m = (y2-y1)/(x2-x1)
+        /// </summary>
+        /// <param name="x1"></param>
+        /// <param name="y1"></param>
+        /// <param name="x2"></param>
+        /// <param name="y2"></param>
+        /// <returns> retorna un valor de tipo doble que corresponde a la pendiente entre dos puntos.</returns>
         private static double CalcularPendiente (int x1, int y1, int x2, int y2)
         {
             return Convert.ToDouble((y2-y1)) / Convert.ToDouble((x2-x1));  
         }
 
+        /// <summary>
+        /// Se recibe una lista de duplas para se agregadas a una lista de segmentos.
+        /// </summary>
+        /// <param name="segmentosIn"></param>
         private static void AgregarSegmentos(List<(int, int)> segmentosIn)
         {
             //refactorizar la forma como se está modificando el ultimo segmento
@@ -107,7 +123,14 @@ namespace PracticaConjuntosDifusos.Logica
             }
            
         }
-
+        /// <summary>
+        /// Permite el cálculo del rango de una ecuacion lineal dentro de un intervalo. La ecuacion es de la forma y=ax+b
+        /// </summary>
+        /// <param name="pendiente"></param>
+        /// <param name="punto"></param>
+        /// <param name="valorInicial"> valor inicial del intervalo </param>
+        /// <param name="valorFinal"> valor final del intervalo</param>
+        /// <param name="y1"></param>
         private static void EcuacionLineal(double pendiente, int punto, int valorInicial, int valorFinal, double y1)
         {
             for (int i = valorInicial; i < valorFinal; i++)

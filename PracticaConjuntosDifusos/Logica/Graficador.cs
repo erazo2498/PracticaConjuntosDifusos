@@ -4,21 +4,32 @@ using System.Drawing;
 using OxyPlot.Series;
 using OxyPlot;
 using OxyPlot.Annotations;
-using System;
+
 
 namespace PracticaConjuntosDifusos.Logica
 {
     public static class Graficador
     { 
-        public static PlotView Generar_Grafica(List<double> valoresEcuacion, List<(int,int)> segmentos, List<string> titulos, double salto, string tipoSistema, int punto)
+
+        /// <summary>
+        /// Permite generar una gráfica en base a los valores y segmentos que se le ingresen, Además valida si el sistema es discreto para crear lineas punteadas o en caso de ser continuo crea lineas continuas.
+        /// </summary>
+        /// <param name="valoresEcuacion"> valores en y para ser graficados</param>
+        /// <param name="segmentos"> valores en x para ser graficados</param>
+        /// <param name="titulos"> titulo correspondiente a cada ecuacion de cada segmento</param>
+        /// <param name="tipoSistema"> de tipo string "Discreto" ó "Continuo"</param>
+        /// <param name="punto">punto de refencia para el analisis</param>
+        /// <returns></returns>
+        public static PlotView Generar_Grafica(List<double> valoresEcuacion, List<(int,int)> segmentos, List<string> titulos, string tipoSistema, int punto)
         {
+            double salto = tipoSistema == "Discreto" ? Constantes.SaltoDiscreto : Constantes.SaltoContinuo;
             PlotView pv = new PlotView();
             pv.Location = new Point(220, 0);
             pv.Size = new Size(1100, 500);
             pv.Model = new PlotModel { Title = tipoSistema=="Discreto"? "Sistema Difuso Discreto": "Sistema Difuso continuo" };
             pv = CrearFlechasContinuidad(punto, pv);
 
-
+            //para evitar que se desborde la lista
             var ultimoSegmento = segmentos[segmentos.Count - 1];
             segmentos.RemoveAt(segmentos.Count - 1);
             ultimoSegmento.Item2--;
@@ -43,7 +54,6 @@ namespace PracticaConjuntosDifusos.Logica
                 fs.LineStyle = tipoSistema == "Discreto" ? LineStyle.Dash : LineStyle.Solid;
                 
 
-
                 if (segmentos.Count > 1)
                 {
                     var limiteInferior = segmento == segmentos[0] ? "(-∞" : "[" + segmentos[indiceTitulo].Item1.ToString();
@@ -55,13 +65,18 @@ namespace PracticaConjuntosDifusos.Logica
                     fs.Title = titulos[indiceTitulo] + "  para: " + "(-∞" +"," + "∞)";
                 }
                 indiceTitulo++;
-
             }
 
             return pv;
         }
 
-        private static PlotView CrearFlechasContinuidad(int punto, PlotView plotView )
+        /// <summary>
+        /// Genera en la gráfica  dos flechas para indicar que la gráfica continua hasta el infinito.
+        /// </summary>
+        /// <param name="punto"></param>
+        /// <param name="plotView"></param>
+        /// <returns></returns>
+        private static PlotView CrearFlechasContinuidad(double punto, PlotView plotView )
         {
             var arrowAnnotation1 = new ArrowAnnotation
             {
