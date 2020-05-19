@@ -9,9 +9,14 @@ namespace PracticaConjuntosDifusos.Logica
         static List<(int, int)> segmentos = new List<(int, int)>();
         static List<double> valores = new List<double>();
         static List<string> ecuaciones = new List<string>();
+        static int rangoA;
+        static int rangoB;
+
 
         public ConjuntoDifusoDiscreto(int punto, string pertenencia)
         {
+            rangoA = Constantes.DominioInicial + punto;
+            rangoB = Constantes.DominioFinal + punto;
             AnalizarConjunto(punto, pertenencia);
         }
 
@@ -26,12 +31,10 @@ namespace PracticaConjuntosDifusos.Logica
             ResetearValores();
 
             List<double> pendientes = new List<double>();
-            int rangoA = -50 + punto;
-            int rangoB = 50 + punto;
             int distancia = CalcularDistancia(pertenencia);
             int limiteInferior = punto - distancia;
             int limiteSuperior = punto + distancia;
-            bool ecuacionValida = true;
+
 
             if(rangoA < limiteInferior && limiteInferior < punto && punto < limiteSuperior && limiteSuperior < rangoB)
             {
@@ -40,15 +43,13 @@ namespace PracticaConjuntosDifusos.Logica
                 pendientes.Add(CalcularPendiente(punto, 1, limiteSuperior, 0));
                 pendientes.Add(CalcularPendiente(limiteSuperior, 0, rangoB, 0));
                 AgregarSegmentos(new List<(int, int)> {(rangoA,limiteInferior), (limiteInferior, punto), (punto, limiteSuperior), (limiteSuperior, rangoB)});
-
             }
             else
             {
-                ecuacionValida = false;
                 MessageBox.Show("No existe este caso");
             }
             
-            if(pendientes.Count > 0 && ecuacionValida)
+            if(pendientes.Count > 0)
             {
                 int indice = 0;
                 foreach (var m in pendientes)

@@ -35,50 +35,36 @@ namespace PracticaConjuntosDifusos
 
             if (ValidarParametros(txtPunto.Text, cbGradoPertenencia.Text))
             {
-                this.Size = new Size(888, 363);
+                this.Size = new Size(1400, 600);
                 Controls.Remove(pv);
                 int punto = int.Parse(txtPunto.Text);
-                int rangoA = -50 + punto;
-                int rangoB = 50 + punto;
                 string pertenencia = cbGradoPertenencia.Text;
-                var arrowAnnotation1 = new ArrowAnnotation
-                {
-                    StartPoint = new DataPoint(rangoA + 1, 0),
-                    EndPoint = new DataPoint(rangoA, 0)
-                };
-                var arrowAnnotation2 = new ArrowAnnotation
-                {
-                    StartPoint = new DataPoint(rangoB - 1, 0),
-                    EndPoint = new DataPoint(rangoB, 0)
-                };
+               
                 if (rbDiscreto.Checked)
                 {
                     ConjuntoDifusoDiscreto conjuntoDiscreto = new ConjuntoDifusoDiscreto(punto, pertenencia);
                     var valores = conjuntoDiscreto.ObtenerValores();
                     var segmentos = conjuntoDiscreto.ObtenerSegmentos();
                     var ecuaciones = conjuntoDiscreto.ObtenerEcuaciones();
-                    pv = Graficador.Generar_Grafica(valores, segmentos, ecuaciones, 1.0, "Discreto");
+                    pv = Graficador.Generar_Grafica(valores, segmentos, ecuaciones, Constantes.SaltoDiscreto, "Discreto", punto);
                     Controls.Add(pv);
                 }
                 else if(rbContinuo.Checked)
                 {
-                    ConjuntoDifusoContinuo conjuntoContinuo = new ConjuntoDifusoContinuo(rangoA, rangoB, punto, pertenencia);
+                    ConjuntoDifusoContinuo conjuntoContinuo = new ConjuntoDifusoContinuo(punto, pertenencia);
                     var valores = conjuntoContinuo.ObtenerValores();
                     var ecuacion = conjuntoContinuo.OtenerEcuacion();
-                    pv = Graficador.Generar_Grafica(valores, new List<(int, int)> {(rangoA, rangoB+1) }, new List<string> {ecuacion}, 0.01, "Continuo");
+                    var segmento = conjuntoContinuo.ObtenerSegmento();
+                    pv = Graficador.Generar_Grafica(valores, segmento, ecuacion, Constantes.SaltoContinuo, "Continuo", punto);
                     Controls.Add(pv);
                 }
-                pv.Model.Annotations.Add(arrowAnnotation1);
-                pv.Model.Annotations.Add(arrowAnnotation2);
-
+               
             }
             else
             {
                 MessageBox.Show("Debe ingresar los parametros correctamente");
             }
-            
-            
-            
+                 
         }
 
         private bool ValidarParametros(string punto, string pertenencia)

@@ -10,12 +10,17 @@ namespace PracticaConjuntosDifusos.Logica
     {
         static List<double> valores = new List<double>();
         static string ecuacion;
-        public ConjuntoDifusoContinuo(int rangoA, int rangoB, int punto, string pertenencia)
+        static int rangoA;
+        static int rangoB;
+
+        public ConjuntoDifusoContinuo(int punto, string pertenencia)
         {
-            AnalizarConjunto(rangoA, rangoB, punto, pertenencia);
+            rangoA = Constantes.DominioInicial + punto;
+            rangoB = Constantes.DominioFinal + punto;
+            AnalizarConjunto(punto, pertenencia);
         }
 
-        private void AnalizarConjunto(int rangoA, int rangoB, int punto, string pertenencia)
+        private void AnalizarConjunto(int punto, string pertenencia)
         {
             ResetearValores();
             int exponente = CalcularDistancia(pertenencia);
@@ -55,7 +60,7 @@ namespace PracticaConjuntosDifusos.Logica
         private static void EcuacionGaussiana(int punto, int valorInicial, int valorFinal, int exponente, int desplazamiento)
         {
          
-            for (double i = valorInicial; i < valorFinal; i += 0.01)
+            for (double i = valorInicial; i < valorFinal; i += Constantes.SaltoContinuo)
             {
                 valores.Add(( desplazamiento/ (desplazamiento + Math.Pow((punto - i), exponente))));
             }
@@ -63,6 +68,11 @@ namespace PracticaConjuntosDifusos.Logica
             ecuacion = desplazamiento.ToString() + "/" + "[" + desplazamiento.ToString() + "+" + "(" + punto.ToString() + "-" + "x" + ")" + "^" + exponente.ToString() + "]";
             
              
+        }
+
+        public List<(int, int)> ObtenerSegmento()
+        {
+            return new List<(int, int)> { (rangoA, rangoB + 1) };
         }
 
         private static void ResetearValores()
@@ -75,9 +85,9 @@ namespace PracticaConjuntosDifusos.Logica
             return valores;
         }
 
-        public string OtenerEcuacion()
+        public List<string> OtenerEcuacion()
         {
-            return ecuacion;
+            return new List<string> { ecuacion };
         }
     }
 }
