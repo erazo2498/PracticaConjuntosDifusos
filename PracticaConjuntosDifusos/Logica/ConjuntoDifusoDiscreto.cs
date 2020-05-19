@@ -120,7 +120,13 @@ namespace PracticaConjuntosDifusos.Logica
             }
             else
             {
-                ecuaciones.Add(pendiente.ToString() + "*(" + "x -" + punto.ToString() + ") +" + y1.ToString()); 
+                punto = punto * -1;
+                var a = pendiente == 1 ? "x" : pendiente.ToString() + "x";
+                a = pendiente == -1 ? "-x" : a;
+                var valor = punto * pendiente + y1;
+                var b = valor >= 0 ? "+" + valor.ToString() : valor.ToString(); 
+
+                ecuaciones.Add(a + b); 
             }
         }
 
