@@ -8,10 +8,10 @@ namespace PracticaConjuntosDifusos.Logica
     {
         static List<double> valores = new List<double>();
         static string ecuacion;
-        static int rangoA;
-        static int rangoB;
+        static double rangoA;
+        static double rangoB;
 
-        public ConjuntoDifusoContinuo(int punto, string pertenencia)
+        public ConjuntoDifusoContinuo(double punto, string pertenencia)
         {
             rangoA = Constantes.DominioInicial + punto;
             rangoB = Constantes.DominioFinal + punto;
@@ -23,7 +23,7 @@ namespace PracticaConjuntosDifusos.Logica
         /// </summary>
         /// <param name="punto">Punto de referencia para el análisis</param>
         /// <param name="pertenencia">parametro de tipo string que indica la variable literal de pertenecia a un punto. Muy Cerca, Cerca, Lejos, MuyLejos</param>
-        private void AnalizarConjunto(int punto, string pertenencia)
+        private void AnalizarConjunto(double punto, string pertenencia)
         {
             ResetearValores();
             int exponente = CalcularDistancia(pertenencia);
@@ -78,7 +78,7 @@ namespace PracticaConjuntosDifusos.Logica
         /// <param name="valorFinal">valor final del intervalo</param>
         /// <param name="exponente"></param>
         /// <param name="desplazamiento">Coeficiente que permite </param>
-        private static void EcuacionGaussiana(int punto, int valorInicial, int valorFinal, int exponente, int desplazamiento)
+        private static void EcuacionGaussiana(double punto, double valorInicial, double valorFinal, int exponente, int desplazamiento)
         { 
             for (double i = valorInicial; i < valorFinal; i += Constantes.SaltoContinuo)
             {
@@ -89,9 +89,9 @@ namespace PracticaConjuntosDifusos.Logica
                  
         }
 
-        public List<(int, int)> ObtenerSegmento()
+        public List<(double, double)> ObtenerSegmento()
         {
-            return new List<(int, int)> { (rangoA, rangoB + 1) };
+            return new List<(double, double)> { (rangoA, rangoB + 1) };
         }
 
         private static void ResetearValores()

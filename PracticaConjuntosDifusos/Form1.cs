@@ -29,16 +29,16 @@ namespace PracticaConjuntosDifusos
             {
                 this.Size = new Size(1400, 600);
                 Controls.Remove(pv);
-                int punto = int.Parse(txtPunto.Text);
+                double punto = double.Parse(txtPunto.Text);
                 string pertenencia = cbGradoPertenencia.Text;
                
                 if (rbDiscreto.Checked)
                 {
-                    ConjuntoDifusoDiscreto conjuntoDiscreto = new ConjuntoDifusoDiscreto(punto, pertenencia);
+                    ConjuntoDifusoDiscreto conjuntoDiscreto = new ConjuntoDifusoDiscreto( (int) punto, pertenencia);
                     var valores = conjuntoDiscreto.ObtenerValores();
                     var segmentos = conjuntoDiscreto.ObtenerSegmentos();
                     var ecuaciones = conjuntoDiscreto.ObtenerEcuaciones();
-                    pv = Graficador.Generar_Grafica(valores, segmentos, ecuaciones, "Discreto", punto);
+                    pv = Graficador.Generar_Grafica(valores, segmentos, ecuaciones, "Discreto", (int) punto);
                     Controls.Add(pv);
                 }
                 else if(rbContinuo.Checked)
@@ -70,22 +70,32 @@ namespace PracticaConjuntosDifusos
         }
 
         private void txtPunto_KeyPress (object sender, KeyPressEventArgs e)
-        {
-            //Para obligar a que sólo se introduzcan números
-            if (Char.IsDigit(e.KeyChar))
+        {   
+            //Para obligar a que sólo se introduzcan números y permitir teclas de control como retroceso
+            if (Char.IsNumber(e.KeyChar) || Char.IsControl(e.KeyChar))
             {
                 e.Handled = false;
             }
-            //permitir teclas de control como retroceso
-            else if (Char.IsControl(e.KeyChar)) 
+            else if (rbContinuo.Checked && (e.KeyChar.Equals('.') || e.KeyChar.Equals(',')) && txtPunto.Text.Length != 0 ) 
             {
-                e.Handled = false;
+                string numero = txtPunto.Text.Substring(0,txtPunto.Text.Length);
+                MessageBox.Show(numero);
+                //Si ya hay un punto, no dejaremos poner el punto(.)
+                if (numero.Contains(System.Globalization.NumberFormatInfo.CurrentInfo.CurrencyDecimalSeparator))
+                {
+                    e.Handled = true; // Interceptamos la pulsación para que no permitirla.
+                }
+                else //Si hay caracteres continuamos las comprobaciones
+                {       //Cambiamos la pulsación al separador decimal definido por el sistema 
+                        e.KeyChar = Convert.ToChar(System.Globalization.NumberFormatInfo.CurrentInfo.CurrencyDecimalSeparator);
+                        e.Handled = false; // No hacemos nada y dejamos que el sistema controle la pulsación de tecla
+                }
             }
             
             else
             {
-                if (e.KeyChar.Equals('-'))
-                {
+                if (e.KeyChar.Equals('-')) { 
+                    
                     e.Handled = false;
                 }
                 else
@@ -95,5 +105,9 @@ namespace PracticaConjuntosDifusos
             }
         }
 
+        private void rbDiscreto_CheckedChanged(object sender, EventArgs e)
+        {
+            txtPunto.Clear();
+        }
     }
 }

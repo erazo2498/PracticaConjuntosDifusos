@@ -94,6 +94,7 @@
             this.rbDiscreto.TabStop = true;
             this.rbDiscreto.Text = "DISCRETO";
             this.rbDiscreto.UseVisualStyleBackColor = true;
+            this.rbDiscreto.CheckedChanged += new System.EventHandler(this.rbDiscreto_CheckedChanged);
             // 
             // rbContinuo
             // 

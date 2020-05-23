@@ -6,7 +6,7 @@ namespace PracticaConjuntosDifusos.Logica
 {
     public class ConjuntoDifusoDiscreto
     {
-        static List<(int, int)> segmentos = new List<(int, int)>();
+        static List<(double, double)> segmentos = new List<(double, double)>();
         static List<double> valores = new List<double>();
         static List<string> ecuaciones = new List<string>();
         static int rangoA;
@@ -55,7 +55,7 @@ namespace PracticaConjuntosDifusos.Logica
                 foreach (var m in pendientes)
                 {
                     int y1 = m == 0 ? 0 : 1;
-                    EcuacionLineal(m, punto, segmentos[indice].Item1, segmentos[indice].Item2, y1);
+                    EcuacionLineal(m, punto,(int) segmentos[indice].Item1,(int) segmentos[indice].Item2, y1);
                     indice++;
                 }
             }
@@ -159,7 +159,7 @@ namespace PracticaConjuntosDifusos.Logica
             return valores;
         }
 
-        public List<(int, int)> ObtenerSegmentos()
+        public List<(double, double)> ObtenerSegmentos()
         {
             return segmentos;
         }

@@ -20,7 +20,7 @@ namespace PracticaConjuntosDifusos.Logica
         /// <param name="tipoSistema"> de tipo string "Discreto" ó "Continuo"</param>
         /// <param name="punto">punto de refencia para el analisis</param>
         /// <returns></returns>
-        public static PlotView Generar_Grafica(List<double> valoresEcuacion, List<(int,int)> segmentos, List<string> titulos, string tipoSistema, int punto)
+        public static PlotView Generar_Grafica(List<double> valoresEcuacion, List<(double,double)> segmentos, List<string> titulos, string tipoSistema, double punto)
         {
             double salto = tipoSistema == "Discreto" ? Constantes.SaltoDiscreto : Constantes.SaltoContinuo;
             PlotView pv = new PlotView();
@@ -36,7 +36,7 @@ namespace PracticaConjuntosDifusos.Logica
             segmentos.Add(ultimoSegmento);
 
             int indiceTitulo = 0;
-            int indice = segmentos[0].Item1;
+            int indice = (int) segmentos[0].Item1;
             int indiceValorEcuacion = 0;
             foreach (var segmento in segmentos)
             {
@@ -49,7 +49,7 @@ namespace PracticaConjuntosDifusos.Logica
                 }
       
                 indiceValorEcuacion--;
-                indice = segmento.Item2;
+                indice = (int) segmento.Item2;
                 pv.Model.Series.Add(fs);
                 fs.LineStyle = tipoSistema == "Discreto" ? LineStyle.Dash : LineStyle.Solid;
                 
